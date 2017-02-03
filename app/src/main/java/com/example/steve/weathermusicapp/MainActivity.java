@@ -15,6 +15,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.steve.weathermusicapp.Common.Common;
@@ -30,6 +31,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     TextView txtCity, txtLastUpdate, txtDescription, txtHumidity, txtTime, txtCelsius, txtMood;
     ImageView imageView;
+    String wDesctiption;
+    LinearLayout lL;
 
     LocationManager locationManager;
     String provider;
@@ -43,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
 
@@ -80,8 +84,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
         new GetWeather().execute(Common.apiRequest(String.valueOf(lat),String.valueOf(lng)));
 
-//        mPlayer = MediaPlayer.create(MainActivity.this, R.raw.happy);
-//        mPlayer.start();
     }
 
     @Override
@@ -189,11 +191,14 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                     .load(Common.getImage(openWeatherMap.getWeather().get(0).getIcon()))
                     .into(imageView);
 
-            if (openWeatherMap.getWeather().get(0).getDescription().equals("clear sky")) {
+            wDesctiption = openWeatherMap.getWeather().get(0).getDescription();
+           // wDesctiption = "thunderstorm";
+
+            if (wDesctiption.equals("clear sky")) {
                 mPlayer = MediaPlayer.create(MainActivity.this, R.raw.happy);
                 mPlayer.start();
             }
-            if (openWeatherMap.getWeather().get(0).getDescription().equals("clear sky")) {
+            else if (wDesctiption.equals("thunderstorm")||wDesctiption.equals("rain")||wDesctiption.equals("shower rain")) {
                 mPlayer = MediaPlayer.create(MainActivity.this, R.raw.sad);
                 mPlayer.start();
             }
