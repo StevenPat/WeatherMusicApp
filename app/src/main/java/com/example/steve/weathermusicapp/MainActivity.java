@@ -192,13 +192,17 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                     .into(imageView);
 
             wDesctiption = openWeatherMap.getWeather().get(0).getDescription();
-           // wDesctiption = "thunderstorm";
+
 
             if (wDesctiption.equals("clear sky")) {
                 mPlayer = MediaPlayer.create(MainActivity.this, R.raw.happy);
                 mPlayer.start();
             }
             else if (wDesctiption.equals("thunderstorm")||wDesctiption.equals("rain")||wDesctiption.equals("shower rain")) {
+                mPlayer = MediaPlayer.create(MainActivity.this, R.raw.sad);
+                mPlayer.start();
+            }
+            else {
                 mPlayer = MediaPlayer.create(MainActivity.this, R.raw.sad);
                 mPlayer.start();
             }
