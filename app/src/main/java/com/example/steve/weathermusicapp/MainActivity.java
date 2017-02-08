@@ -30,7 +30,7 @@ import java.lang.reflect.Type;
 public class MainActivity extends AppCompatActivity implements LocationListener {
 
     TextView txtCity, txtLastUpdate, txtDescription, txtHumidity, txtTime, txtCelsius, txtMood;
-    ImageView imageView;
+    ImageView imageView, imageViewLogo;
     String wDesctiption;
     LinearLayout lL;
 
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         txtCelsius = (TextView) findViewById(R.id.txtCelsius);
 
         imageView = (ImageView) findViewById(R.id.imageView);
-
+        imageViewLogo = (ImageView) findViewById(R.id.imageViewLogo);
         //implementing LocationListener, Get Coordinates
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         provider = locationManager.getBestProvider(new Criteria(), false);
@@ -120,10 +120,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     @Override
     public void onLocationChanged(Location location) {
-//        lat = location.getLatitude();
-//        lng = location.getLongitude();
-        lat = 46.78;
-        lng = 92.10;
+        lat = location.getLatitude();
+        lng = location.getLongitude();
+
         new GetWeather().execute(Common.apiRequest(String.valueOf(lat) ,String.valueOf(lng)));
 
     }
@@ -199,6 +198,14 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 mPlayer.start();
             }
             else if (wDesctiption.equals("thunderstorm")||wDesctiption.equals("rain")||wDesctiption.equals("shower rain")) {
+                mPlayer = MediaPlayer.create(MainActivity.this, R.raw.sad);
+                mPlayer.start();
+            }
+            else  if (wDesctiption.equals("snow")){
+                mPlayer = MediaPlayer.create(MainActivity.this, R.raw.sad);
+                mPlayer.start();
+            }
+            else  if (wDesctiption.equals("few clouds")||wDesctiption.equals("scattered clouds")||wDesctiption.equals("broken clouds")){
                 mPlayer = MediaPlayer.create(MainActivity.this, R.raw.sad);
                 mPlayer.start();
             }

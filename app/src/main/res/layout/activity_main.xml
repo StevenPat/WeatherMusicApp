@@ -69,6 +69,12 @@
         android:textSize="18sp"
         android:gravity="center"/>
 
+    <ImageView
+        android:id="@+id/imageViewLogo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo"/>
+
     <!--<TextView-->
         <!--android:id="@+id/txtMood"-->
         <!--android:layout_width="match_parent"-->
