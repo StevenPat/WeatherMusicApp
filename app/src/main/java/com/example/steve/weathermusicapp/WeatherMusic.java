@@ -3,6 +3,7 @@ package com.example.steve.weathermusicapp;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -14,6 +15,8 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,7 +35,8 @@ import java.lang.reflect.Type;
  */
 
 public class WeatherMusic extends AppCompatActivity implements LocationListener {
-    TextView txtCity, txtLastUpdate, txtDescription, txtHumidity, txtTime, txtCelsius, txtMood;
+    TextView txtCity, txtLastUpdate, txtDescription, txtHumidity, txtTime, txtCelsius;
+    Button txtMood;
     ImageView imageView, imageViewLogo;
     String wDesctiption;
     LinearLayout lL;
@@ -82,10 +86,20 @@ public class WeatherMusic extends AppCompatActivity implements LocationListener 
         if (location == null) {
             Log.e("TAG", "No Location");
         }
+
         lat = location.getLatitude();
         lng = location.getLongitude();
 
         new GetWeather().execute(Common.apiRequest(String.valueOf(lat),String.valueOf(lng)));
+
+        txtMood = (Button) findViewById(R.id.txtMood);
+        txtMood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent pickMood = new Intent(WeatherMusic.this, MainActivity.class);
+                startActivity(pickMood);
+            }
+        });
 
     }
 
@@ -199,22 +213,27 @@ public class WeatherMusic extends AppCompatActivity implements LocationListener 
             if (wDesctiption.equals("clear sky")) {
                 mPlayer = MediaPlayer.create(WeatherMusic.this, R.raw.happy);
                 mPlayer.start();
+
             }
             else if (wDesctiption.equals("thunderstorm")||wDesctiption.equals("rain")||wDesctiption.equals("shower rain")) {
                 mPlayer = MediaPlayer.create(WeatherMusic.this, R.raw.sad);
                 mPlayer.start();
+
             }
             else  if (wDesctiption.equals("snow")){
                 mPlayer = MediaPlayer.create(WeatherMusic.this, R.raw.sad);
                 mPlayer.start();
+
             }
             else  if (wDesctiption.equals("few clouds")||wDesctiption.equals("scattered clouds")||wDesctiption.equals("broken clouds")){
                 mPlayer = MediaPlayer.create(WeatherMusic.this, R.raw.sad);
                 mPlayer.start();
+
             }
             else {
                 mPlayer = MediaPlayer.create(WeatherMusic.this, R.raw.sad);
                 mPlayer.start();
+
             }
         }
 

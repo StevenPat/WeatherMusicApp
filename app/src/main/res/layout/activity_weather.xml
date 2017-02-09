@@ -75,13 +75,13 @@
         android:layout_height="wrap_content"
         android:src="@drawable/logo"/>
 
-    <!--<TextView-->
-        <!--android:id="@+id/txtMood"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text=""-->
-        <!--android:textStyle="bold"-->
-        <!--android:textSize="18sp"-->
-        <!--android:gravity="center"/>-->
+    <Button
+        android:id="@+id/txtMood"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pick Your Mood"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:gravity="center"/>
 
 </LinearLayout>
