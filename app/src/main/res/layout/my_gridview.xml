@@ -12,12 +12,12 @@
         android:paddingTop="50dp"
         android:paddingBottom="15dp"
         android:columnWidth="185dp"
-        android:gravity="center|bottom"
+        android:gravity="center"
         android:horizontalSpacing="10dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:numColumns="2"
-        android:stretchMode="spacingWidth"
+        android:numColumns="auto_fit"
+        android:stretchMode="columnWidth"
         android:verticalSpacing="15dp"
         />
 
