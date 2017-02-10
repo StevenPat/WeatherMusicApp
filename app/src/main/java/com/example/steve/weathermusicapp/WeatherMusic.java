@@ -59,9 +59,9 @@ public class WeatherMusic extends AppCompatActivity implements LocationListener 
 
         //Control
         txtCity = (TextView) findViewById(R.id.txtCity);
-        txtLastUpdate = (TextView) findViewById(R.id.txtLastUpdate);
+       // txtLastUpdate = (TextView) findViewById(R.id.txtLastUpdate);
         txtDescription = (TextView) findViewById(R.id.txtDescription);
-        txtHumidity = (TextView) findViewById(R.id.txtHumidity);
+       // txtHumidity = (TextView) findViewById(R.id.txtHumidity);
         txtTime = (TextView) findViewById(R.id.txtTime);
         txtCelsius = (TextView) findViewById(R.id.txtCelsius);
 
@@ -198,9 +198,8 @@ public class WeatherMusic extends AppCompatActivity implements LocationListener 
             pd.dismiss();
 
             txtCity.setText(String.format("%s,%s", openWeatherMap.getName(), openWeatherMap.getSys().getCountry()));
-            txtLastUpdate.setText(String.format("Last Updated: %s", Common.getDateNow()));
+//            txtLastUpdate.setText(String.format("Last Updated: %s", Common.getDateNow()));
             txtDescription.setText(String.format("%s", openWeatherMap.getWeather().get(0).getDescription()));
-            txtHumidity.setText(String.format("%d%%", openWeatherMap.getMain().getHumidity()));
             txtTime.setText(String.format("%s/%s", Common.unixTimeStampToDateTime(openWeatherMap.getSys().getSunrise()), Common.unixTimeStampToDateTime(openWeatherMap.getSys().getSunrise())));
             txtCelsius.setText(String.format("%.2f °C", openWeatherMap.getMain().getTemp()));
             Picasso.with(WeatherMusic.this)
