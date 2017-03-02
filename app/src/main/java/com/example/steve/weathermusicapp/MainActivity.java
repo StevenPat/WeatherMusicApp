@@ -58,8 +58,27 @@ public class MainActivity extends AppCompatActivity {
         AdapterView.OnItemClickListener onItemClick = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent weather = new Intent(MainActivity.this, WeatherMusic.class);
-                startActivity(weather);
+
+            if (position == 0) {
+                Intent i = new Intent(MainActivity.this, PlayAudio.class);
+                i.putExtra("layout", R.layout.activity_play_audio_happy);
+                startActivity(i);
+            }
+            else if (position == 1){
+                Intent i = new Intent(MainActivity.this, PlayAudio.class);
+                i.putExtra("layout", R.layout.activity_play_audio_sad);
+                startActivity(i);
+            }
+            else if (position == 2){
+                Intent i = new Intent(MainActivity.this, PlayAudio.class);
+                i.putExtra("layout", R.layout.activity_play_audio_relax);
+                startActivity(i);
+            }
+            else {
+                Intent i = new Intent(MainActivity.this, PlayAudio.class);
+                i.putExtra("layout", R.layout.activity_play_audio_example);
+                startActivity(i);
+            }
             }
         };
 

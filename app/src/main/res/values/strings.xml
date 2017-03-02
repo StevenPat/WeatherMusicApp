@@ -2,5 +2,7 @@
     <string name="app_name">WeatherMusicApp</string>
     <string name="string_pleasewait">Please Wait ...</string>
     <string name="moodBTN">Choose Your Mood</string>
+    <string name="contentDescription">Image</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

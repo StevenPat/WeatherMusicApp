@@ -117,6 +117,7 @@ public class WeatherMusic extends AppCompatActivity implements LocationListener 
             }, MY_PERMISSION);
         }
         locationManager.removeUpdates(this);
+        mPlayer.stop();
     }
 
     @Override
