@@ -72,4 +72,3 @@
         android:gravity="center"
         android:backgroundTint="@color/primary_light" />
 </LinearLayout>
-
