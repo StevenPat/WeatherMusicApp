@@ -59,9 +59,11 @@ public class WeatherMusic extends AppCompatActivity implements LocationListener 
 
         //Control
         txtCity = (TextView) findViewById(R.id.txtCity);
-       // txtLastUpdate = (TextView) findViewById(R.id.txtLastUpdate);
+
+        // txtLastUpdate = (TextView) findViewById(R.id.txtLastUpdate);
         txtDescription = (TextView) findViewById(R.id.txtDescription);
-       // txtHumidity = (TextView) findViewById(R.id.txtHumidity);
+
+        // txtHumidity = (TextView) findViewById(R.id.txtHumidity);
         txtTime = (TextView) findViewById(R.id.txtTime);
         txtCelsius = (TextView) findViewById(R.id.txtCelsius);
 
