@@ -44,8 +44,8 @@ public class MainActivity extends AppCompatActivity {
 
             moodList = new ArrayList<>();
             moodList.add(new Mood(R.drawable.joy, "Happy"));
-            moodList.add(new Mood(R.drawable.sad, "Sad"));;
-            moodList.add(new Mood(R.drawable.chill, "Chill"));;
+            moodList.add(new Mood(R.drawable.sad, "Sad"));
+            moodList.add(new Mood(R.drawable.chill, "Chill"));
             moodList.add(new Mood(R.drawable.anger, "Angry"));
             moodList.add(new Mood(R.drawable.high, "Confused"));
             moodList.add(new Mood(R.drawable.relaxed, "Excited"));

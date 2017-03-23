@@ -36,7 +36,7 @@ import java.lang.reflect.Type;
 
 public class WeatherMusic extends AppCompatActivity implements LocationListener {
     TextView txtCity, txtLastUpdate, txtDescription, txtHumidity, txtTime, txtCelsius;
-    Button txtMood;
+    Button txtMood, txtPlay;
     ImageView imageView, imageViewLogo;
     String wDesctiption;
     LinearLayout lL;
@@ -107,7 +107,13 @@ public class WeatherMusic extends AppCompatActivity implements LocationListener 
                 startActivity(pickMood);
             }
         });
-
+        txtPlay = (Button) findViewById(R.id.txtPlay);
+        txtPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               mPlayer.start();
+            }
+        });
 
 
     }
@@ -159,43 +165,43 @@ public class WeatherMusic extends AppCompatActivity implements LocationListener 
 
             if (wDesctiption.equals("clear sky")) {
                 mPlayer = MediaPlayer.create(WeatherMusic.this, R.raw.happy);
-                mPlayer.start();
+               // mPlayer.start();
                 LinearLayout l = (LinearLayout) findViewById(R.id.activity_play_audio_example);
                 l.setBackgroundResource(R.drawable.clear);
 
             } else if ( wDesctiption.equals("rain") || wDesctiption.equals("shower rain")) {
                 mPlayer = MediaPlayer.create(WeatherMusic.this, R.raw.sad);
-                mPlayer.start();
+                //mPlayer.start();
                 LinearLayout l = (LinearLayout) findViewById(R.id.activity_play_audio_example);
                 l.setBackgroundResource(R.drawable.rain);
 
             } else if ( wDesctiption.equals("thunderstorm") ) {
                 mPlayer = MediaPlayer.create(WeatherMusic.this, R.raw.angry);
-                mPlayer.start();
+                //mPlayer.start();
                 LinearLayout l = (LinearLayout) findViewById(R.id.activity_play_audio_example);
                 l.setBackgroundResource(R.drawable.thunderstorm);
 
             } else if (wDesctiption.equals("snow")) {
                 mPlayer = MediaPlayer.create(WeatherMusic.this, R.raw.sad);
-                mPlayer.start();
+                //mPlayer.start();
                 LinearLayout l = (LinearLayout) findViewById(R.id.activity_play_audio_example);
                 l.setBackgroundResource(R.drawable.snow);
 
             } else if (wDesctiption.equals("few clouds") || wDesctiption.equals("scattered clouds") || wDesctiption.equals("broken clouds")) {
                 mPlayer = MediaPlayer.create(WeatherMusic.this, R.raw.relaxed);
-                mPlayer.start();
+                //mPlayer.start();
                 LinearLayout l = (LinearLayout) findViewById(R.id.activity_play_audio_example);
                 l.setBackgroundResource(R.drawable.cloudy);
 
             }  else if (wDesctiption.equals("overcast clouds")) {
                 mPlayer = MediaPlayer.create(WeatherMusic.this, R.raw.relaxed);
-                mPlayer.start();
+                //mPlayer.start();
                 LinearLayout l = (LinearLayout) findViewById(R.id.activity_play_audio_example);
                 l.setBackgroundResource(R.drawable.overcast);
 
             }else {
                 mPlayer = MediaPlayer.create(WeatherMusic.this, R.raw.sad);
-                mPlayer.start();
+              //  mPlayer.start();
 
             }
         }
@@ -271,7 +277,6 @@ public class WeatherMusic extends AppCompatActivity implements LocationListener 
         super.onStart();
 
 
-
     }
 
     @Override
@@ -279,5 +284,6 @@ public class WeatherMusic extends AppCompatActivity implements LocationListener 
         super.onStop();
 
     }
+
 
 }
