@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
+    android:id="@+id/activity_play_audio_example"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -14,7 +14,7 @@
         android:layout_height="100dp"
         android:layout_gravity="center"
         android:src="@drawable/logo"
-        android:contentDescription="@string/contentDescription"/>
+        android:contentDescription="@string/contentDescription" />
 
     <TextView
         android:id="@+id/txtLayout"
@@ -23,7 +23,8 @@
         android:text="@string/angry"
         android:textStyle="bold"
         android:textSize="46sp"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textColor="@color/secondary_text"/>
 
     <TextView
         android:id="@+id/txtCity"
@@ -31,8 +32,9 @@
         android:layout_height="wrap_content"
         android:text="@string/string_pleasewait"
         android:textStyle="bold"
-        android:textSize="46sp"
-        android:gravity="center"/>
+        android:textSize="66sp"
+        android:gravity="center"
+        android:textColor="@color/secondary_text"/>
 
     <TextView
         android:id="@+id/txtDescription"
@@ -40,8 +42,9 @@
         android:layout_height="wrap_content"
         android:text="@string/string_pleasewait"
         android:textStyle="bold"
-        android:textSize="20sp"
-        android:gravity="center"/>
+        android:textSize="40sp"
+        android:gravity="center"
+        android:textColor="@color/secondary_text"/>
 
     <ImageView
         android:layout_width="100dp"
@@ -58,8 +61,9 @@
         android:layout_height="wrap_content"
         android:text="@string/string_pleasewait"
         android:textStyle="bold"
-        android:textSize="20sp"
-        android:gravity="center"/>
+        android:textSize="40sp"
+        android:gravity="center"
+        android:textColor="@color/secondary_text"/>
 
     <TextView
         android:id="@+id/txtCelsius"
@@ -67,7 +71,8 @@
         android:layout_height="wrap_content"
         android:text="@string/string_pleasewait"
         android:textStyle="bold"
-        android:textSize="20sp"
-        android:gravity="center"/>
+        android:textSize="40sp"
+        android:gravity="center"
+        android:textColor="@color/secondary_text"/>
 
 </LinearLayout>

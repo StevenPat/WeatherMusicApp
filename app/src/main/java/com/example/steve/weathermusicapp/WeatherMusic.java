@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -74,6 +75,7 @@ public class WeatherMusic extends AppCompatActivity implements LocationListener 
 
         imageView = (ImageView) findViewById(R.id.imageView);
         imageViewLogo = (ImageView) findViewById(R.id.imageViewLogo);
+
         //implementing LocationListener, Get Coordinates
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         provider = locationManager.getBestProvider(new Criteria(), false);
@@ -114,6 +116,13 @@ public class WeatherMusic extends AppCompatActivity implements LocationListener 
                mPlayer.start();
             }
         });
+        Typeface typeFace=Typeface.createFromAsset(getAssets(),"GeosansLight.ttf");
+        txtCity.setTypeface(typeFace);
+        txtPlay.setTypeface(typeFace);
+        txtMood.setTypeface(typeFace);
+        txtCelsius.setTypeface(typeFace);
+        txtDescription.setTypeface(typeFace);
+        txtTime.setTypeface(typeFace);
 
 
     }
@@ -239,7 +248,6 @@ public class WeatherMusic extends AppCompatActivity implements LocationListener 
             }, MY_PERMISSION);
         }
         locationManager.requestLocationUpdates(provider, 400, 1, this);
-
     }
 
     @Override

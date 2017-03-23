@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -126,8 +127,12 @@ public class Choice extends AppCompatActivity implements LocationListener {
             mPlayer.start();
         }
 
-
-
+        Typeface typeFace=Typeface.createFromAsset(getAssets(),"Pacifico.ttf");
+        txtCity.setTypeface(typeFace);
+        txtCelsius.setTypeface(typeFace);
+        txtDescription.setTypeface(typeFace);
+        txtTime.setTypeface(typeFace);
+        txtLayout.setTypeface(typeFace);
 
     }
 
