@@ -31,10 +31,10 @@ import com.squareup.picasso.Picasso;
 import java.lang.reflect.Type;
 
 /**
- * Created by Steve on 2/8/2017.
+ * Created by Steve on 3/22/2017.
  */
 
-public class WeatherMusic extends AppCompatActivity implements LocationListener {
+public class Choice extends AppCompatActivity implements LocationListener {
     TextView txtCity, txtLastUpdate, txtDescription, txtHumidity, txtTime, txtCelsius;
     Button txtMood;
     ImageView imageView, imageViewLogo;
@@ -80,7 +80,7 @@ public class WeatherMusic extends AppCompatActivity implements LocationListener 
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-            ActivityCompat.requestPermissions(WeatherMusic.this, new String[]{
+            ActivityCompat.requestPermissions(Choice.this, new String[]{
                     Manifest.permission.INTERNET,
                     Manifest.permission.ACCESS_COARSE_LOCATION,
                     Manifest.permission.ACCESS_FINE_LOCATION,
@@ -96,13 +96,13 @@ public class WeatherMusic extends AppCompatActivity implements LocationListener 
 
 
 
-      //  new GetWeather().execute(Common.apiRequest(String.valueOf(lat), String.valueOf(lng)));
+        //  new GetWeather().execute(Common.apiRequest(String.valueOf(lat), String.valueOf(lng)));
 
         txtMood = (Button) findViewById(R.id.txtMood);
         txtMood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent pickMood = new Intent(WeatherMusic.this, MainActivity.class);
+                Intent pickMood = new Intent(Choice.this, MainActivity.class);
                 startActivity(pickMood);
             }
         });
@@ -114,7 +114,7 @@ public class WeatherMusic extends AppCompatActivity implements LocationListener 
     protected void onPause() {
         super.onPause();
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(WeatherMusic.this, new String[]{
+            ActivityCompat.requestPermissions(Choice.this, new String[]{
                     Manifest.permission.INTERNET,
                     Manifest.permission.ACCESS_COARSE_LOCATION,
                     Manifest.permission.ACCESS_FINE_LOCATION,
@@ -131,7 +131,7 @@ public class WeatherMusic extends AppCompatActivity implements LocationListener 
     protected void onResume() {
         super.onResume();
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(WeatherMusic.this, new String[]{
+            ActivityCompat.requestPermissions(Choice.this, new String[]{
                     Manifest.permission.INTERNET,
                     Manifest.permission.ACCESS_COARSE_LOCATION,
                     Manifest.permission.ACCESS_FINE_LOCATION,
@@ -148,7 +148,7 @@ public class WeatherMusic extends AppCompatActivity implements LocationListener 
         lat = location.getLatitude();
         lng = location.getLongitude();
 
-        new GetWeather().execute(Common.apiRequest(String.valueOf(lat), String.valueOf(lng)));
+        new Choice.GetWeather().execute(Common.apiRequest(String.valueOf(lat), String.valueOf(lng)));
 
     }
 
@@ -190,7 +190,7 @@ public class WeatherMusic extends AppCompatActivity implements LocationListener 
 
     private class GetWeather extends AsyncTask<String, Void, String> {
 
-        ProgressDialog pd = new ProgressDialog(WeatherMusic.this);
+        ProgressDialog pd = new ProgressDialog(Choice.this);
 
         @Override
         protected void onPreExecute() {
@@ -227,47 +227,12 @@ public class WeatherMusic extends AppCompatActivity implements LocationListener 
             txtDescription.setText(String.format("%s", openWeatherMap.getWeather().get(0).getDescription()));
             txtTime.setText(String.format("%s/%s", Common.unixTimeStampToDateTime(openWeatherMap.getSys().getSunrise()), Common.unixTimeStampToDateTime(openWeatherMap.getSys().getSunrise())));
             txtCelsius.setText(String.format("%.2f °C", openWeatherMap.getMain().getTemp()));
-            Picasso.with(WeatherMusic.this)
+            Picasso.with(Choice.this)
                     .load(Common.getImage(openWeatherMap.getWeather().get(0).getIcon()))
                     .into(imageView);
 
             wDesctiption = openWeatherMap.getWeather().get(0).getDescription();
 
-            if (wDesctiption.equals("clear sky")) {
-                mPlayer = MediaPlayer.create(WeatherMusic.this, R.raw.happy);
-                mPlayer.start();
-                LinearLayout l = (LinearLayout) findViewById(R.id.activity_play_audio_example);
-                l.setBackgroundResource(R.drawable.clear);
-
-            } else if ( wDesctiption.equals("rain") || wDesctiption.equals("shower rain")) {
-                mPlayer = MediaPlayer.create(WeatherMusic.this, R.raw.sad);
-                mPlayer.start();
-                LinearLayout l = (LinearLayout) findViewById(R.id.activity_play_audio_example);
-                l.setBackgroundResource(R.drawable.rain);
-
-            } else if ( wDesctiption.equals("thunderstorm") ) {
-                mPlayer = MediaPlayer.create(WeatherMusic.this, R.raw.sad);
-                mPlayer.start();
-                LinearLayout l = (LinearLayout) findViewById(R.id.activity_play_audio_example);
-                l.setBackgroundResource(R.drawable.thunderstorm);
-
-            } else if (wDesctiption.equals("snow")) {
-                mPlayer = MediaPlayer.create(WeatherMusic.this, R.raw.sad);
-                mPlayer.start();
-                LinearLayout l = (LinearLayout) findViewById(R.id.activity_play_audio_example);
-                l.setBackgroundResource(R.drawable.snow);
-
-            } else if (wDesctiption.equals("few clouds") || wDesctiption.equals("scattered clouds") || wDesctiption.equals("broken clouds")) {
-                mPlayer = MediaPlayer.create(WeatherMusic.this, R.raw.sad);
-                mPlayer.start();
-                LinearLayout l = (LinearLayout) findViewById(R.id.activity_play_audio_example);
-                l.setBackgroundResource(R.drawable.cloudy);
-
-            } else {
-                mPlayer = MediaPlayer.create(WeatherMusic.this, R.raw.sad);
-                mPlayer.start();
-
-            }
         }
 
     }

@@ -60,22 +60,22 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
             if (position == 0) {
-                Intent i = new Intent(MainActivity.this, PlayAudio.class);
+                Intent i = new Intent(MainActivity.this, Choice.class);
                 i.putExtra("layout", R.layout.activity_play_audio_happy);
                 startActivity(i);
             }
             else if (position == 1){
-                Intent i = new Intent(MainActivity.this, PlayAudio.class);
+                Intent i = new Intent(MainActivity.this, Choice.class);
                 i.putExtra("layout", R.layout.activity_play_audio_sad);
                 startActivity(i);
             }
             else if (position == 2){
-                Intent i = new Intent(MainActivity.this, PlayAudio.class);
+                Intent i = new Intent(MainActivity.this, Choice.class);
                 i.putExtra("layout", R.layout.activity_play_audio_relax);
                 startActivity(i);
             }
             else {
-                Intent i = new Intent(MainActivity.this, PlayAudio.class);
+                Intent i = new Intent(MainActivity.this, Choice.class);
                 i.putExtra("layout", R.layout.activity_play_audio_example);
                 startActivity(i);
             }
