@@ -4,5 +4,11 @@
     <string name="moodBTN">Choose Your Mood</string>
     <string name="contentDescription">Image</string>
     <string name="action_settings">Settings</string>
+    <string name="happy">Happy</string>
+    <string name="sad">Sad</string>
+    <string name="angry">Angry</string>
+    <string name="relaxed">Relaxed</string>
+    <string name="confused">Confused</string>
+    <string name="excited">Excited</string>
 
 </resources>

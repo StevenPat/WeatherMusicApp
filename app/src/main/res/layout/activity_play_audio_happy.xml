@@ -17,6 +17,15 @@
         android:contentDescription="@string/contentDescription"/>
 
     <TextView
+        android:id="@+id/txtLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/happy"
+        android:textStyle="bold"
+        android:textSize="46sp"
+        android:gravity="center"/>
+
+    <TextView
         android:id="@+id/txtCity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -61,13 +70,5 @@
         android:textSize="20sp"
         android:gravity="center"/>
 
-    <Button
-        android:id="@+id/txtMood"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/moodBTN"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:gravity="center"
-        android:backgroundTint="@color/primary_light" />
+
 </LinearLayout>

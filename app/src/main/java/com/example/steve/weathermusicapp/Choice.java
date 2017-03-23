@@ -3,7 +3,6 @@ package com.example.steve.weathermusicapp;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -15,8 +14,6 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -35,8 +32,7 @@ import java.lang.reflect.Type;
  */
 
 public class Choice extends AppCompatActivity implements LocationListener {
-    TextView txtCity, txtLastUpdate, txtDescription, txtHumidity, txtTime, txtCelsius;
-    Button txtMood;
+    TextView txtCity, txtLastUpdate, txtDescription, txtHumidity, txtTime, txtCelsius, txtLayout;
     ImageView imageView, imageViewLogo;
     String wDesctiption;
     LinearLayout lL;
@@ -67,6 +63,7 @@ public class Choice extends AppCompatActivity implements LocationListener {
 
         // txtLastUpdate = (TextView) findViewById(R.id.txtLastUpdate);
         txtDescription = (TextView) findViewById(R.id.txtDescription);
+        txtLayout = (TextView) findViewById(R.id.txtLayout);
 
         // txtHumidity = (TextView) findViewById(R.id.txtHumidity);
         txtTime = (TextView) findViewById(R.id.txtTime);
@@ -95,21 +92,95 @@ public class Choice extends AppCompatActivity implements LocationListener {
         }
 
 
+        lat = location.getLatitude();
+        lng = location.getLongitude();
+
+        new Choice.GetWeather().execute(Common.apiRequest(String.valueOf(lat), String.valueOf(lng)));
 
         //  new GetWeather().execute(Common.apiRequest(String.valueOf(lat), String.valueOf(lng)));
 
-        txtMood = (Button) findViewById(R.id.txtMood);
-        txtMood.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent pickMood = new Intent(Choice.this, MainActivity.class);
-                startActivity(pickMood);
-            }
-        });
+
+
+        if(txtLayout.getText().toString().equals("Sad")){
+            mPlayer = MediaPlayer.create(Choice.this, R.raw.sad);
+            mPlayer.start();
+        }
+        if(txtLayout.getText().toString().equals("Happy")){
+            mPlayer = MediaPlayer.create(Choice.this, R.raw.happy);
+            mPlayer.start();
+        }
+        if(txtLayout.getText().toString().equals("Angry")){
+            mPlayer = MediaPlayer.create(Choice.this, R.raw.angry);
+            mPlayer.start();
+        }
+        if(txtLayout.getText().toString().equals("Relaxed")){
+            mPlayer = MediaPlayer.create(Choice.this, R.raw.relaxed);
+            mPlayer.start();
+        }
+        if(txtLayout.getText().toString().equals("Confused")){
+            mPlayer = MediaPlayer.create(Choice.this, R.raw.confused);
+            mPlayer.start();
+        }
+        if(txtLayout.getText().toString().equals("Excited")){
+            mPlayer = MediaPlayer.create(Choice.this, R.raw.excited);
+            mPlayer.start();
+        }
+
+
 
 
     }
 
+
+
+    private class GetWeather extends AsyncTask<String, Void, String> {
+
+        ProgressDialog pd = new ProgressDialog(Choice.this);
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pd.setTitle("Please wait...");
+            pd.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String stream = null;
+            String urlString = params[0];
+
+            Helper http = new Helper();
+            stream = http.getHTTPData(urlString);
+            return stream;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if (s.contains("Error: Not found city")) {
+                pd.dismiss();
+                return;
+            }
+            Gson gson = new Gson();
+            Type mType = new TypeToken<OpenWeatherMap>() {
+            }.getType();
+            openWeatherMap = gson.fromJson(s, mType);
+            pd.dismiss();
+
+            txtCity.setText(String.format("%s,%s", openWeatherMap.getName(), openWeatherMap.getSys().getCountry()));
+//            txtLastUpdate.setText(String.format("Last Updated: %s", Common.getDateNow()));
+            txtDescription.setText(String.format("%s", openWeatherMap.getWeather().get(0).getDescription()));
+            txtTime.setText(String.format("%s/%s", Common.unixTimeStampToDateTime(openWeatherMap.getSys().getSunrise()), Common.unixTimeStampToDateTime(openWeatherMap.getSys().getSunrise())));
+            txtCelsius.setText(String.format("%.2f °C", openWeatherMap.getMain().getTemp()));
+            Picasso.with(Choice.this)
+                    .load(Common.getImage(openWeatherMap.getWeather().get(0).getIcon()))
+                    .into(imageView);
+
+            wDesctiption = openWeatherMap.getWeather().get(0).getDescription();
+
+        }
+
+    }
     @Override
     protected void onPause() {
         super.onPause();
@@ -124,7 +195,7 @@ public class Choice extends AppCompatActivity implements LocationListener {
             }, MY_PERMISSION);
         }
         locationManager.removeUpdates(this);
-
+        mPlayer.pause();
     }
 
     @Override
@@ -185,55 +256,6 @@ public class Choice extends AppCompatActivity implements LocationListener {
     public void onStop() {
         super.onStop();
 
-
-    }
-
-    private class GetWeather extends AsyncTask<String, Void, String> {
-
-        ProgressDialog pd = new ProgressDialog(Choice.this);
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pd.setTitle("Please wait...");
-            pd.show();
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            String stream = null;
-            String urlString = params[0];
-
-            Helper http = new Helper();
-            stream = http.getHTTPData(urlString);
-            return stream;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            if (s.contains("Error: Not found city")) {
-                pd.dismiss();
-                return;
-            }
-            Gson gson = new Gson();
-            Type mType = new TypeToken<OpenWeatherMap>() {
-            }.getType();
-            openWeatherMap = gson.fromJson(s, mType);
-            pd.dismiss();
-
-            txtCity.setText(String.format("%s,%s", openWeatherMap.getName(), openWeatherMap.getSys().getCountry()));
-//            txtLastUpdate.setText(String.format("Last Updated: %s", Common.getDateNow()));
-            txtDescription.setText(String.format("%s", openWeatherMap.getWeather().get(0).getDescription()));
-            txtTime.setText(String.format("%s/%s", Common.unixTimeStampToDateTime(openWeatherMap.getSys().getSunrise()), Common.unixTimeStampToDateTime(openWeatherMap.getSys().getSunrise())));
-            txtCelsius.setText(String.format("%.2f °C", openWeatherMap.getMain().getTemp()));
-            Picasso.with(Choice.this)
-                    .load(Common.getImage(openWeatherMap.getWeather().get(0).getIcon()))
-                    .into(imageView);
-
-            wDesctiption = openWeatherMap.getWeather().get(0).getDescription();
-
-        }
 
     }
 }

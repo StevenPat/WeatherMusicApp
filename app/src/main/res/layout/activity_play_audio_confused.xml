@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.steve.weathermusicapp.MainActivity"
+    android:background="@drawable/cloudy">
+
+    <ImageView
+        android:id="@+id/imageViewLogo"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:src="@drawable/logo"
+        android:contentDescription="@string/contentDescription"/>
+
+    <TextView
+        android:id="@+id/txtLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/confused"
+        android:textStyle="bold"
+        android:textSize="46sp"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/txtCity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/string_pleasewait"
+        android:textStyle="bold"
+        android:textSize="46sp"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/txtDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/string_pleasewait"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:gravity="center"/>
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/imageView"
+        android:layout_gravity="center"
+        android:contentDescription="@string/contentDescription"
+        />
+
+
+    <TextView
+        android:id="@+id/txtTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/string_pleasewait"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/txtCelsius"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/string_pleasewait"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:gravity="center"/>
+
+
+</LinearLayout>

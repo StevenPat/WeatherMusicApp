@@ -94,9 +94,10 @@ public class WeatherMusic extends AppCompatActivity implements LocationListener 
             Log.e("TAG", "No Location");
         }
 
+        lat = location.getLatitude();
+        lng = location.getLongitude();
 
-
-      //  new GetWeather().execute(Common.apiRequest(String.valueOf(lat), String.valueOf(lng)));
+       new GetWeather().execute(Common.apiRequest(String.valueOf(lat), String.valueOf(lng)));
 
         txtMood = (Button) findViewById(R.id.txtMood);
         txtMood.setOnClickListener(new View.OnClickListener() {
@@ -107,83 +108,6 @@ public class WeatherMusic extends AppCompatActivity implements LocationListener 
             }
         });
 
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(WeatherMusic.this, new String[]{
-                    Manifest.permission.INTERNET,
-                    Manifest.permission.ACCESS_COARSE_LOCATION,
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_NETWORK_STATE,
-                    Manifest.permission.SYSTEM_ALERT_WINDOW,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-            }, MY_PERMISSION);
-        }
-        locationManager.removeUpdates(this);
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(WeatherMusic.this, new String[]{
-                    Manifest.permission.INTERNET,
-                    Manifest.permission.ACCESS_COARSE_LOCATION,
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_NETWORK_STATE,
-                    Manifest.permission.SYSTEM_ALERT_WINDOW,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-            }, MY_PERMISSION);
-        }
-        locationManager.requestLocationUpdates(provider, 400, 1, this);
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        lat = location.getLatitude();
-        lng = location.getLongitude();
-
-        new GetWeather().execute(Common.apiRequest(String.valueOf(lat), String.valueOf(lng)));
-
-    }
-
-    @Override
-    public void onStatusChanged(String s, int i, Bundle bundle) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String s) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String s) {
-
-    }
-
-    public void onDestroy() {
-        super.onDestroy();
-
-    }
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-
-
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
 
 
     }
@@ -246,7 +170,7 @@ public class WeatherMusic extends AppCompatActivity implements LocationListener 
                 l.setBackgroundResource(R.drawable.rain);
 
             } else if ( wDesctiption.equals("thunderstorm") ) {
-                mPlayer = MediaPlayer.create(WeatherMusic.this, R.raw.sad);
+                mPlayer = MediaPlayer.create(WeatherMusic.this, R.raw.angry);
                 mPlayer.start();
                 LinearLayout l = (LinearLayout) findViewById(R.id.activity_play_audio_example);
                 l.setBackgroundResource(R.drawable.thunderstorm);
@@ -258,12 +182,18 @@ public class WeatherMusic extends AppCompatActivity implements LocationListener 
                 l.setBackgroundResource(R.drawable.snow);
 
             } else if (wDesctiption.equals("few clouds") || wDesctiption.equals("scattered clouds") || wDesctiption.equals("broken clouds")) {
-                mPlayer = MediaPlayer.create(WeatherMusic.this, R.raw.sad);
+                mPlayer = MediaPlayer.create(WeatherMusic.this, R.raw.relaxed);
                 mPlayer.start();
                 LinearLayout l = (LinearLayout) findViewById(R.id.activity_play_audio_example);
                 l.setBackgroundResource(R.drawable.cloudy);
 
-            } else {
+            }  else if (wDesctiption.equals("overcast clouds")) {
+                mPlayer = MediaPlayer.create(WeatherMusic.this, R.raw.relaxed);
+                mPlayer.start();
+                LinearLayout l = (LinearLayout) findViewById(R.id.activity_play_audio_example);
+                l.setBackgroundResource(R.drawable.overcast);
+
+            }else {
                 mPlayer = MediaPlayer.create(WeatherMusic.this, R.raw.sad);
                 mPlayer.start();
 
@@ -271,4 +201,83 @@ public class WeatherMusic extends AppCompatActivity implements LocationListener 
         }
 
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(WeatherMusic.this, new String[]{
+                    Manifest.permission.INTERNET,
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_NETWORK_STATE,
+                    Manifest.permission.SYSTEM_ALERT_WINDOW,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+            }, MY_PERMISSION);
+        }
+        locationManager.removeUpdates(this);
+        mPlayer.pause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(WeatherMusic.this, new String[]{
+                    Manifest.permission.INTERNET,
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_NETWORK_STATE,
+                    Manifest.permission.SYSTEM_ALERT_WINDOW,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+            }, MY_PERMISSION);
+        }
+        locationManager.requestLocationUpdates(provider, 400, 1, this);
+
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        lat = location.getLatitude();
+        lng = location.getLongitude();
+
+        new GetWeather().execute(Common.apiRequest(String.valueOf(lat), String.valueOf(lng)));
+
+    }
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+    }
+
 }

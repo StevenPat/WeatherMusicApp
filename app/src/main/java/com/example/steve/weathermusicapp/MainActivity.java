@@ -47,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
             moodList.add(new Mood(R.drawable.sad, "Sad"));;
             moodList.add(new Mood(R.drawable.chill, "Chill"));;
             moodList.add(new Mood(R.drawable.anger, "Angry"));
-            moodList.add(new Mood(R.drawable.high, "High"));
-            moodList.add(new Mood(R.drawable.relaxed, "Relaxed"));
+            moodList.add(new Mood(R.drawable.high, "Confused"));
+            moodList.add(new Mood(R.drawable.relaxed, "Excited"));
 
 
 
@@ -72,6 +72,21 @@ public class MainActivity extends AppCompatActivity {
             else if (position == 2){
                 Intent i = new Intent(MainActivity.this, Choice.class);
                 i.putExtra("layout", R.layout.activity_play_audio_relax);
+                startActivity(i);
+            }
+            else if (position == 3){
+                Intent i = new Intent(MainActivity.this, Choice.class);
+                i.putExtra("layout", R.layout.activity_play_audio_angry);
+                startActivity(i);
+            }
+            else if (position == 4){
+                Intent i = new Intent(MainActivity.this, Choice.class);
+                i.putExtra("layout", R.layout.activity_play_audio_confused);
+                startActivity(i);
+            }
+            else if (position == 5){
+                Intent i = new Intent(MainActivity.this, Choice.class);
+                i.putExtra("layout", R.layout.activity_play_audio_excited);
                 startActivity(i);
             }
             else {
