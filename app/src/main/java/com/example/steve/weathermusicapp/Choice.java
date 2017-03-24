@@ -38,6 +38,7 @@ public class Choice extends AppCompatActivity implements LocationListener {
     String wDesctiption;
     LinearLayout lL;
 
+    GPSTracker gps;
     LocationManager locationManager;
     String provider;
     static double lat, lng;
@@ -88,13 +89,30 @@ public class Choice extends AppCompatActivity implements LocationListener {
             }, MY_PERMISSION);
         }
         Location location = locationManager.getLastKnownLocation(provider);
+        if(location != null){
+            lat = location.getLatitude();
+            lng = location.getLongitude();
+        }
         if (location == null) {
             Log.e("TAG", "No Location");
+            gps = new GPSTracker(Choice.this);
+
+            // check if GPS enabled
+            if(gps.canGetLocation()){
+
+                lat = gps.getLatitude();
+                lng = gps.getLongitude();
+
+
+            }else{
+                // can't get location
+                // GPS or Network is not enabled
+                // Ask user to enable GPS/network in settings
+                gps.showSettingsAlert();
+            }
         }
 
 
-        lat = location.getLatitude();
-        lng = location.getLongitude();
 
         new Choice.GetWeather().execute(Common.apiRequest(String.valueOf(lat), String.valueOf(lng)));
 

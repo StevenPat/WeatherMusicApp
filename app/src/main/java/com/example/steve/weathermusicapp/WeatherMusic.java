@@ -42,7 +42,9 @@ public class WeatherMusic extends AppCompatActivity implements LocationListener 
     String wDesctiption;
     LinearLayout lL;
 
+    GPSTracker gps;
     LocationManager locationManager;
+    LocationListener locationListener;
     String provider;
     static double lat, lng;
     OpenWeatherMap openWeatherMap = new OpenWeatherMap();
@@ -76,9 +78,11 @@ public class WeatherMusic extends AppCompatActivity implements LocationListener 
         imageView = (ImageView) findViewById(R.id.imageView);
         imageViewLogo = (ImageView) findViewById(R.id.imageViewLogo);
 
+
         //implementing LocationListener, Get Coordinates
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         provider = locationManager.getBestProvider(new Criteria(), false);
+
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
@@ -90,16 +94,36 @@ public class WeatherMusic extends AppCompatActivity implements LocationListener 
                     Manifest.permission.SYSTEM_ALERT_WINDOW,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE
             }, MY_PERMISSION);
+
         }
+
         Location location = locationManager.getLastKnownLocation(provider);
+        if(location != null){
+            lat = location.getLatitude();
+            lng = location.getLongitude();
+        }
         if (location == null) {
             Log.e("TAG", "No Location");
+            gps = new GPSTracker(WeatherMusic.this);
+
+            // check if GPS enabled
+            if(gps.canGetLocation()){
+
+                lat = gps.getLatitude();
+                lng = gps.getLongitude();
+
+
+            }else{
+                // can't get location
+                // GPS or Network is not enabled
+                // Ask user to enable GPS/network in settings
+                gps.showSettingsAlert();
+            }
         }
 
-        lat = location.getLatitude();
-        lng = location.getLongitude();
 
-       new GetWeather().execute(Common.apiRequest(String.valueOf(lat), String.valueOf(lng)));
+
+        new GetWeather().execute(Common.apiRequest(String.valueOf(lat), String.valueOf(lng)));
 
         txtMood = (Button) findViewById(R.id.txtMood);
         txtMood.setOnClickListener(new View.OnClickListener() {
@@ -116,6 +140,7 @@ public class WeatherMusic extends AppCompatActivity implements LocationListener 
                mPlayer.start();
             }
         });
+
         Typeface typeFace=Typeface.createFromAsset(getAssets(),"GeosansLight.ttf");
         txtCity.setTypeface(typeFace);
         txtPlay.setTypeface(typeFace);
