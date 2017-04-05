@@ -16,6 +16,8 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -37,18 +39,25 @@ import java.lang.reflect.Type;
 
 public class WeatherMusic extends AppCompatActivity implements LocationListener {
     TextView txtCity, txtLastUpdate, txtDescription, txtHumidity, txtTime, txtCelsius;
-    Button txtMood, txtPlay;
+    Button txtMood, txtPlay, txtRefresh;
     ImageView imageView, imageViewLogo;
     String wDesctiption;
     LinearLayout lL;
+
+    String zip, cc;
+
+    SetLocation s;
+
 
     GPSTracker gps;
     LocationManager locationManager;
     LocationListener locationListener;
     String provider;
-    static double lat, lng;
+    static double lat;
+    static double lng;
     OpenWeatherMap openWeatherMap = new OpenWeatherMap();
 
+    Location location;
     int MY_PERMISSION = 0;
 
     MediaPlayer mPlayer;
@@ -58,13 +67,15 @@ public class WeatherMusic extends AppCompatActivity implements LocationListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Bundle parameters = getIntent().getExtras();
-        if(parameters != null && parameters.containsKey("layout")) {
-            setContentView(parameters.getInt("layout"));
+
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        if(extras != null) {
+            zip = extras.getString("zip");
+            cc = extras.getString("cc");
         }
-        else{
-            setContentView(R.layout.activity_play_audio_example);
-        }
+        setContentView(R.layout.activity_play_audio_example);
+
         //Control
         txtCity = (TextView) findViewById(R.id.txtCity);
 
@@ -79,9 +90,12 @@ public class WeatherMusic extends AppCompatActivity implements LocationListener 
         imageViewLogo = (ImageView) findViewById(R.id.imageViewLogo);
 
 
+
+
         //implementing LocationListener, Get Coordinates
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         provider = locationManager.getBestProvider(new Criteria(), false);
+
 
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -97,7 +111,8 @@ public class WeatherMusic extends AppCompatActivity implements LocationListener 
 
         }
 
-        Location location = locationManager.getLastKnownLocation(provider);
+         location = locationManager.getLastKnownLocation(provider);
+
         if(location != null){
             lat = location.getLatitude();
             lng = location.getLongitude();
@@ -122,8 +137,12 @@ public class WeatherMusic extends AppCompatActivity implements LocationListener 
         }
 
 
+        if (cc != null && zip != null){
+            new GetWeather().execute(Common.apiRequestZip( zip, cc ));
 
-        new GetWeather().execute(Common.apiRequest(String.valueOf(lat), String.valueOf(lng)));
+        }else {
+            new GetWeather().execute(Common.apiRequest(String.valueOf(lat), String.valueOf(lng)));
+        }
 
         txtMood = (Button) findViewById(R.id.txtMood);
         txtMood.setOnClickListener(new View.OnClickListener() {
@@ -133,13 +152,15 @@ public class WeatherMusic extends AppCompatActivity implements LocationListener 
                 startActivity(pickMood);
             }
         });
-        txtPlay = (Button) findViewById(R.id.txtPlay);
+
+         txtPlay = (Button) findViewById(R.id.txtPlay);
         txtPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                mPlayer.start();
             }
         });
+
 
         Typeface typeFace=Typeface.createFromAsset(getAssets(),"GeosansLight.ttf");
         txtCity.setTypeface(typeFace);
@@ -148,6 +169,8 @@ public class WeatherMusic extends AppCompatActivity implements LocationListener 
         txtCelsius.setTypeface(typeFace);
         txtDescription.setTypeface(typeFace);
         txtTime.setTypeface(typeFace);
+
+
 
 
     }
@@ -190,7 +213,7 @@ public class WeatherMusic extends AppCompatActivity implements LocationListener 
 //            txtLastUpdate.setText(String.format("Last Updated: %s", Common.getDateNow()));
             txtDescription.setText(String.format("%s", openWeatherMap.getWeather().get(0).getDescription()));
             txtTime.setText(String.format("%s/%s", Common.unixTimeStampToDateTime(openWeatherMap.getSys().getSunrise()), Common.unixTimeStampToDateTime(openWeatherMap.getSys().getSunrise())));
-            txtCelsius.setText(String.format("%.2f °C", openWeatherMap.getMain().getTemp()));
+            txtCelsius.setText(String.format("%.2f °F", openWeatherMap.getMain().getTemp()));
             Picasso.with(WeatherMusic.this)
                     .load(Common.getImage(openWeatherMap.getWeather().get(0).getIcon()))
                     .into(imageView);
@@ -273,6 +296,7 @@ public class WeatherMusic extends AppCompatActivity implements LocationListener 
             }, MY_PERMISSION);
         }
         locationManager.requestLocationUpdates(provider, 400, 1, this);
+
     }
 
     @Override
@@ -316,6 +340,46 @@ public class WeatherMusic extends AppCompatActivity implements LocationListener 
     public void onStop() {
         super.onStop();
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_play_audio_example, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.action_static:
+                Intent i = new Intent(WeatherMusic.this, SetLocation.class);
+                startActivity(i);
+
+
+
+                return true;
+            case R.id.action_dynamic:
+                lat = location.getLatitude();
+                lng = location.getLongitude();
+
+                new GetWeather().execute(Common.apiRequest(String.valueOf(lat), String.valueOf(lng)));
+                return true;
+            case R.id.menu_static:
+                Intent ii = new Intent(WeatherMusic.this, SetLocation.class);
+                startActivity(ii);
+
+                return true;
+            case R.id.menu_dynamic:
+                lat = location.getLatitude();
+                lng = location.getLongitude();
+
+                new GetWeather().execute(Common.apiRequest(String.valueOf(lat), String.valueOf(lng)));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 

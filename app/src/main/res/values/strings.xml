@@ -11,4 +11,11 @@
     <string name="confused">Confused</string>
     <string name="excited">Excited</string>
     <string name="play">Play Music</string>
+    <string name="staticLocation">Set Location</string>
+    <string name="dynamicLocation">Find Location</string>
+    <string name="action_favorite"></string>
+    <string name="zip">Enter Zip</string>
+    <string name="counrty">Enter Country Code (US, UK)</string>
+    <string name="set_map_string">Set Location</string>
+
 </resources>

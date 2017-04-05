@@ -11,16 +11,20 @@ import java.util.Date;
  */
 
 public class Common {
-    public static String API_KEY = "e33a1d6599cde93f080aca133159c6d6";
+    public static String API_KEY = "4a3e95e39023825f2bca45cd2a70e3e7";
     public static String API_LINK = "http://api.openweathermap.org/data/2.5/weather";
 
     @NonNull
     public static String apiRequest(String lat, String lng){
         StringBuilder sb = new StringBuilder(API_LINK);
-        sb.append(String.format("?lat=%s&lon=%s&APPID=%s&units=metric", lat, lng,API_KEY));
+        sb.append(String.format("?lat=%s&lon=%s&APPID=%s&units=imperial", lat, lng,API_KEY));
         return sb.toString();
     }
-
+    @NonNull
+    public static String apiRequestZip(String zip, String country){
+            String link = API_LINK + "?zip=" + zip +","+ country+"&APPID="+ API_KEY+"&units=imperial";
+        return link;
+    }
     public static  String unixTimeStampToDateTime(double unixTimeStamp){
         DateFormat dateFormat = new SimpleDateFormat("HH.mm");
         Date date = new Date();

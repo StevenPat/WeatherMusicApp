@@ -3,6 +3,7 @@ package com.example.steve.weathermusicapp;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.location.Criteria;
@@ -15,6 +16,8 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -44,11 +47,14 @@ public class Choice extends AppCompatActivity implements LocationListener {
     static double lat, lng;
     OpenWeatherMap openWeatherMap = new OpenWeatherMap();
 
+    Location location;
     int MY_PERMISSION = 0;
 
     MediaPlayer mPlayer;
 
+    String cc, zip;
 
+    int layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +62,9 @@ public class Choice extends AppCompatActivity implements LocationListener {
         Bundle parameters = getIntent().getExtras();
         if(parameters != null && parameters.containsKey("layout")) {
             setContentView(parameters.getInt("layout"));
+           layout = parameters.getInt("layout");
+            zip = parameters.getString("zip");
+            cc = parameters.getString("cc");
         }
         else{
             setContentView(R.layout.activity_play_audio_example);
@@ -88,7 +97,7 @@ public class Choice extends AppCompatActivity implements LocationListener {
                     Manifest.permission.WRITE_EXTERNAL_STORAGE
             }, MY_PERMISSION);
         }
-        Location location = locationManager.getLastKnownLocation(provider);
+        location = locationManager.getLastKnownLocation(provider);
         if(location != null){
             lat = location.getLatitude();
             lng = location.getLongitude();
@@ -113,8 +122,12 @@ public class Choice extends AppCompatActivity implements LocationListener {
         }
 
 
+        if (cc != null && zip != null){
+            new Choice.GetWeather().execute(Common.apiRequestZip( zip, cc ));
 
-        new Choice.GetWeather().execute(Common.apiRequest(String.valueOf(lat), String.valueOf(lng)));
+        }else {
+            new Choice.GetWeather().execute(Common.apiRequest(String.valueOf(lat), String.valueOf(lng)));
+        }
 
         //  new GetWeather().execute(Common.apiRequest(String.valueOf(lat), String.valueOf(lng)));
 
@@ -194,7 +207,7 @@ public class Choice extends AppCompatActivity implements LocationListener {
 //            txtLastUpdate.setText(String.format("Last Updated: %s", Common.getDateNow()));
             txtDescription.setText(String.format("%s", openWeatherMap.getWeather().get(0).getDescription()));
             txtTime.setText(String.format("%s/%s", Common.unixTimeStampToDateTime(openWeatherMap.getSys().getSunrise()), Common.unixTimeStampToDateTime(openWeatherMap.getSys().getSunrise())));
-            txtCelsius.setText(String.format("%.2f °C", openWeatherMap.getMain().getTemp()));
+            txtCelsius.setText(String.format("%.2f °F", openWeatherMap.getMain().getTemp()));
             Picasso.with(Choice.this)
                     .load(Common.getImage(openWeatherMap.getWeather().get(0).getIcon()))
                     .into(imageView);
@@ -280,5 +293,47 @@ public class Choice extends AppCompatActivity implements LocationListener {
         super.onStop();
 
 
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_play_audio_example, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.action_static:
+                Intent i = new Intent(Choice.this, SetLocation.class);
+                Bundle extras = new Bundle();
+                extras.putInt("layout", layout);
+                i.putExtras(extras);
+                startActivity(i);
+
+
+
+                return true;
+            case R.id.action_dynamic:
+                lat = location.getLatitude();
+                lng = location.getLongitude();
+
+                new Choice.GetWeather().execute(Common.apiRequest(String.valueOf(lat), String.valueOf(lng)));
+                return true;
+            case R.id.menu_static:
+                Intent ii = new Intent(Choice.this, SetLocation.class);
+                startActivity(ii);
+
+                return true;
+            case R.id.menu_dynamic:
+                lat = location.getLatitude();
+                lng = location.getLongitude();
+
+                new Choice.GetWeather().execute(Common.apiRequest(String.valueOf(lat), String.valueOf(lng)));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

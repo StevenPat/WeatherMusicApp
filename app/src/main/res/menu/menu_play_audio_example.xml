@@ -1,6 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" tools:context=".PlayAudioExample">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+    xmlns:geoquizthree="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_static"
+        android:icon="@drawable/ic_static"
+        android:title="@string/action_favorite"
+        geoquizthree:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_dynamic"
+        android:icon="@drawable/ic_dynamic"
+        android:title="@string/action_favorite"
+        geoquizthree:showAsAction="ifRoom"/>
+    <!--The app:showAsAction attribute specifies whether the action should be shown as a button on the app bar.-->
+
+    <item android:id="@+id/menu_static"
+        android:orderInCategory="80"
+        geoquizthree:showAsAction="never"
+        android:title="@string/staticLocation" />
+
+    <item android:id="@+id/menu_dynamic"
+        android:orderInCategory="90"
+        geoquizthree:showAsAction="never"
+        android:title="@string/dynamicLocation" />
 </menu>

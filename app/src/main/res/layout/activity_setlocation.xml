@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".SetLocation"
+    >
+
+    <EditText
+        android:id="@+id/zip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:hint="@string/zip"
+        android:inputType="textPostalAddress" />
+
+    <EditText
+        android:id="@+id/countrycode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:hint="@string/counrty"
+        android:layout_below="@id/zip"
+        android:inputType="textPostalAddress" />
+
+    <Button
+        android:id="@+id/mapButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/countrycode"
+        android:layout_centerHorizontal="true"
+        android:text="@string/set_map_string"
+        android:layout_margin="2dp"
+       />
+
+
+
+</RelativeLayout>
